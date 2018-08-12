@@ -2,13 +2,8 @@ package com.knox.bilgebot.gui;
 
 import com.knox.bilgebot.BilgeBot;
 import com.knox.bilgebot.InitThread;
-import com.knox.bilgebot.UpdateManager;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Created by Jacob on 7/20/2015.
@@ -29,7 +24,7 @@ public class StatusFrame extends JFrame
 
     public StatusFrame(BilgeBot bilgeBot)
     {
-        super("Knox's Bilge Bot - " + UpdateManager.getVersionString());
+        super("Knox's Bilge Bot - 1.1");
         this.bilgeBot = bilgeBot;
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
