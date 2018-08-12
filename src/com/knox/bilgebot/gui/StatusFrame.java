@@ -91,27 +91,6 @@ public class StatusFrame extends JFrame
         }
     }
 
-    @Override
-    public void setVisible(boolean visible)
-    {
-        super.setVisible(visible);
-
-        if(visible)
-        {
-            Thread updateThread = new Thread() {
-                @Override
-                public void run()
-                {
-                    UpdateManager updateManager = new UpdateManager();
-                    if(updateManager.isUpdateAvailable())
-                    {
-                        updateManager.requestUpdate();
-                    }
-                }};
-            updateThread.start();
-        }
-    }
-
     public void setStatus(String status)
     {
         this.statusLabel.setText("Status: " + status);
