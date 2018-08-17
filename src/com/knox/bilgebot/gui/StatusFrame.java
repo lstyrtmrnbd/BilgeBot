@@ -19,6 +19,7 @@ public class StatusFrame extends JFrame
     private JCheckBox autoCheckBox;
     private JCheckBox overlayCheckBox;
     private JButton startStopButton;
+    private JCheckBox mouseSkippingCheckBox;
     private BilgeBot bilgeBot;
     private InitThread initThread;
 
@@ -60,7 +61,7 @@ public class StatusFrame extends JFrame
             else
             {
                 startStopButton.setText("Stop");
-                initThread = new InitThread(bilgeBot, (Integer) depthSpinner.getValue(), autoCheckBox.isSelected(), overlayCheckBox.isSelected());
+                initThread = new InitThread(bilgeBot, (Integer) depthSpinner.getValue(), autoCheckBox.isSelected(), overlayCheckBox.isSelected(), mouseSkippingCheckBox.isSelected());
                 initThread.start();
             }
         });

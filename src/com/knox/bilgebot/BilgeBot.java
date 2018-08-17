@@ -43,7 +43,7 @@ public class BilgeBot
 
     private boolean isRunning;
 
-    private MouseMoveThread mouseMoveThread = new MouseMoveThread();
+    private MouseThread mouseThread; // why was this being initialized here?
 
     private boolean autoMode;
     private int depth;
@@ -147,9 +147,9 @@ public class BilgeBot
      */
     public void stop()
     {
-        if(mouseMoveThread != null)
+        if(mouseThread != null)
         {
-            mouseMoveThread.shutdown();
+            mouseThread.shutdown();
         }
         if(tickThread != null)
         {
@@ -167,7 +167,7 @@ public class BilgeBot
     /**
      * Prepares the bot to run by waiting on the PP window and bilge puzzle, then launches the threads
      */
-    public void init(int depth, boolean auto, boolean overlay)
+    public void init(int depth, boolean auto, boolean overlay, boolean mouseskip)
     {
         this.depth = depth;
         this.autoMode = auto;
@@ -250,13 +250,11 @@ public class BilgeBot
         tickThread = new TickThread(this);
         tickThread.start();
 
-        if(auto)
+        if (auto)
         {
-            mouseMoveThread = new MouseMoveThread();
-            mouseMoveThread.start();
+            mouseThread = new MouseThread(!mouseskip); // param is for smooth movement, smooth = !skip
+            mouseThread.start();
         }
-
-
     }
 
     /**
@@ -311,7 +309,7 @@ public class BilgeBot
         }*/
 
         //Automode swapping
-        if(autoMode && System.currentTimeMillis() - lastSwapTime > 250 && ! mouseMoveThread.hasMove())
+        if(autoMode && System.currentTimeMillis() - lastSwapTime > 250 && ! mouseThread.mouseMover.hasMove())
         {
 
             if (swapQueue.isEmpty()) //Finds a move if one is needed
@@ -342,7 +340,7 @@ public class BilgeBot
                 Swap swap = swapQueue.remove(0);
                 System.out.println("Executing swap: " + swap);
                 status.setStatus("Performing swap: " + swap.toString());
-                mouseMoveThread.setDestination((int) (adjustedX + 7 + swap.getXPos() * PIECE_LENGTH + PIECE_LENGTH * Math.random() + PIECE_LENGTH / 2),
+                mouseThread.mouseMover.setDestination((int) (adjustedX + 7 + swap.getXPos() * PIECE_LENGTH + PIECE_LENGTH * Math.random() + PIECE_LENGTH / 2),
                         (int) (adjustedY + 7 + swap.getYPos() * PIECE_LENGTH + PIECE_LENGTH * Math.random()));
 
                 lastSwapTime = System.currentTimeMillis();
